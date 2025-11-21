@@ -5,8 +5,13 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5173:5173"
+      - "6277:6277"
     volumes:
       - ../:/workspace:cached
     working_dir: /workspace
     command: sleep infinity
+
+networks:
+  default:
+    name: dev_default
+    external: true
