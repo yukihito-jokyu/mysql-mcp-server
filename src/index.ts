@@ -3,7 +3,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { Command } from "commander";
 import { connect } from "./lib/connect.js";
-import { listTables } from "./lib/database.js";
+import { getTableSchema, listTables } from "./lib/database.js";
 
 // Parse CLI Args
 const program = new Command()
@@ -75,6 +75,24 @@ server.registerTool(
     return {
       content: [{ type: "text", text: tables }],
       structuredContent: { tables }
+    };
+  }
+);
+
+// Get Table Schema Tool
+server.registerTool(
+  "get_table_schema",
+  {
+    title: "Get Table Schema",
+    description: "Get schema information for a specific table",
+    inputSchema: { tableName: z.string() },
+    outputSchema: { schema: z.string() }
+  },
+  async ({ tableName }: { tableName: string }) => {
+    const schema = await getTableSchema(connection, tableName);
+    return {
+      content: [{ type: "text", text: schema }],
+      structuredContent: { schema }
     };
   }
 );
