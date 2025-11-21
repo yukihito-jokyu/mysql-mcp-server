@@ -1,63 +1,180 @@
 # MySQL MCP Server
 
-MySQL データベースと連携するための Model Context Protocol (MCP) サーバーです。
+A Model Context Protocol (MCP) server for MySQL databases that provides **read-only** access to database schema information and sample data.
 
-## 開発環境
+## Background
 
-このプロジェクトは、VS Code DevContainers を使用して構築された、一貫性のある開発環境を提供します。
+While existing MySQL MCP servers (such as [designcomputer/mysql_mcp_server](https://github.com/designcomputer/mysql_mcp_server)) allow LLMs to generate and execute arbitrary SQL queries—including INSERT, UPDATE, and DELETE operations—this approach poses risks when working on backend implementations.
 
-### 環境の概要
+**This MCP server takes a different, safer approach:**
 
-- **ベースイメージ**: `node:24-slim`
-- **パッケージマネージャー**: `pnpm`
-- **タスクランナー**: `task` (go-task)
-- **シェル**: `zsh` (Oh My Zsh, autosuggestions, syntax-highlighting 導入済み)
+- ✅ **Read-only operations**: Retrieves table lists, schema information, and sample data
+- ❌ **No write operations**: Cannot modify, add, or delete data
+- 🎯 **Backend development focused**: Provides exactly what's needed for backend implementation without the risk of data corruption
 
-### セットアップ手順
+When developing backend applications, you typically only need to understand the database structure. This server provides:
 
-1.  **必須要件**:
+1. **Table List**: Get all tables in the database
+2. **Schema Information**: Retrieve detailed schema for specific tables
+3. **Sample Data**: Fetch the first 5 rows from any table for validation
 
-    - Docker Desktop
-    - Visual Studio Code
-    - VS Code 拡張機能: [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+## Features
 
-2.  **開始方法**:
+- 🔒 **Safe by design**: Read-only operations prevent accidental data modification
+- 🚀 **Simple setup**: Easy configuration via CLI arguments
+- 📊 **Three essential tools**:
+  - `list_tables`: Get a list of all tables in the database
+  - `get_table_schema`: Retrieve schema information for a specific table
+  - `get_table_data`: Fetch up to 5 sample rows from a table
 
-    - VS Code でこのプロジェクトフォルダを開きます。
-    - 左下の緑色のアイコンをクリックするか、コマンドパレット (`Cmd+Shift+P`) を開き、「Dev Containers: Reopen in Container」を選択します。
-    - 初回起動時はコンテナのビルドが行われるため、数分かかる場合があります。
+## Installation
 
-3.  **拡張機能インストール方法(Antigravity の場合)**
-    - 以下のコマンドから拡張機能をインストールする
-    - `chmod +x .devcontainer/scripts/install_extensions.sh`
-    - `./.devcontainer/scripts/install_extensions.sh`
+```bash
+npm install @yukihito/mysql-mcp-server
+```
 
-### 利用可能なスクリプト
+or
 
-`package.json` に定義されている主なスクリプトは以下の通りです：
+```bash
+pnpm add @yukihito/mysql-mcp-server
+```
 
-- `pnpm build`: TypeScript コードをコンパイルします。
-- `pnpm dev`: 変更を監視して自動的にコンパイルします。
-- `pnpm start`: コンパイルされたサーバーを起動します。
+## Usage
 
-### タスクランナー (Taskfile)
+### As an MCP Server
 
-このプロジェクトでは、タスクランナーとして `task` (go-task) を使用しています。以下のコマンドでタスクを実行できます。
+Configure your MCP client (e.g., Claude Desktop, Cline) to use this server:
 
-- `task init`: 開発環境の初期化（VS Code 拡張機能のインストールなど）を行います。
-- `task dev`: MCP Inspector を起動し、サーバーの動作検証を行います。
-- `task run`: MCP Server を起動します。
+```json
+{
+  "mcpServers": {
+    "mysql": {
+      "command": "npx",
+      "args": [
+        "@yukihito/mysql-mcp-server",
+        "--host", "localhost",
+        "--port", "3306",
+        "--name", "your_username",
+        "--password", "your_password",
+        "--database", "your_database"
+      ]
+    }
+  }
+}
+```
 
-### VS Code 拡張機能
+### CLI Options
 
-開発効率を向上させるために、以下の拡張機能が自動的にインストールされます：
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--host` | MySQL host | `localhost` |
+| `--port` | MySQL port | `8080` |
+| `--name` | Database username | `admin` |
+| `--password` | Database password | `root` |
+| `--database` | Database name | `database` |
 
-- **ESLint / Prettier**: コードの品質チェックとフォーマット
-- **Git Graph**: Git 履歴の可視化
-- **ErrorLens**: エラーのインライン表示
-- **Pretty TypeScript Errors**: TypeScript エラーを見やすく表示
-- **その他**: スペルチェック、インデントの可視化など
+### Example Configuration for Claude Desktop
 
-## ライセンス
+Edit your Claude Desktop configuration file:
+
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "mysql": {
+      "command": "npx",
+      "args": [
+        "@yukihito/mysql-mcp-server",
+        "--host", "localhost",
+        "--port", "3306",
+        "--name", "myuser",
+        "--password", "mypassword",
+        "--database", "mydb"
+      ]
+    }
+  }
+}
+```
+
+## Available Tools
+
+### 1. list_tables
+
+Retrieves a list of all tables in the connected database.
+
+**Input**: None
+
+**Output**: JSON array of table names
+
+**Example**:
+```json
+["users", "products", "orders", "categories"]
+```
+
+### 2. get_table_schema
+
+Gets detailed schema information for a specific table.
+
+**Input**:
+- `tableName` (string): Name of the table
+
+**Output**: JSON array containing column information (name, type, nullable, key, default, extra)
+
+**Example**:
+```json
+[
+  {
+    "Field": "id",
+    "Type": "int",
+    "Null": "NO",
+    "Key": "PRI",
+    "Default": null,
+    "Extra": "auto_increment"
+  },
+  {
+    "Field": "name",
+    "Type": "varchar(255)",
+    "Null": "NO",
+    "Key": "",
+    "Default": null,
+    "Extra": ""
+  }
+]
+```
+
+### 3. get_table_data
+
+Retrieves up to 5 rows from a specific table for validation purposes.
+
+**Input**:
+- `tableName` (string): Name of the table
+
+**Output**: JSON array of row objects (limited to 5 rows)
+
+**Example**:
+```json
+[
+  {"id": 1, "name": "John Doe", "email": "john@example.com"},
+  {"id": 2, "name": "Jane Smith", "email": "jane@example.com"}
+]
+```
+
+## Development
+
+For development environment setup and contribution guidelines, see [DEVELOPMENT.md](./DEVELOPMENT.md).
+
+## License
 
 MIT
+
+## Author
+
+Yukihito
+
+## Related Projects
+
+- [Model Context Protocol](https://modelcontextprotocol.io/)
+- [designcomputer/mysql_mcp_server](https://github.com/designcomputer/mysql_mcp_server) - Alternative MySQL MCP server with full query execution capabilities
