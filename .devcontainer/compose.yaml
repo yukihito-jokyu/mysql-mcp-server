@@ -1,0 +1,12 @@
+services:
+  mysql-mcp-server:
+    container_name: mysql-mcp-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../:/workspace:cached
+    working_dir: /workspace
+    command: sleep infinity

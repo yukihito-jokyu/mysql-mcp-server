@@ -1,0 +1,23 @@
+{
+    "name": "mysql-mcp-server",
+    "dockerComposeFile": "./compose.yaml",
+    "service": "mysql-mcp-server",
+    "workspaceFolder": "/workspace",
+    "remoteUser": "node",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "esbenp.prettier-vscode",
+                "oderwat.indent-rainbow",
+                "streetsidesoftware.code-spell-checker",
+                "mhutchie.git-graph",
+                "editorconfig.editorconfig",
+                "shardulm94.trailing-spaces",
+                "ms-ceintl.vscode-language-pack-ja",
+                "usernamehw.errorlens",
+                "dbaeumer.vscode-eslint",
+                "yoavbls.pretty-ts-errors"
+            ]
+        }
+    }
+}
