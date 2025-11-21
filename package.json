@@ -1,8 +1,8 @@
 {
   "name": "@yukihito/mysql-mcp-server",
   "version": "1.0.0",
+  "mcpName": "io.github.yukihito-jokyu/mysql-mcp-server",
   "description": "MySQL MCP Server",
-  "type": "module",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -24,31 +24,37 @@
     "start": "node dist/index.js",
     "prepublishOnly": "pnpm build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yukihito-jokyu/mysql-mcp-server.git"
+  },
   "keywords": [
     "mcp",
     "mysql",
     "server",
-    "ai",
-    "llm"
+    "modelcontextprotocol",
+    "context"
   ],
   "author": "Yukihito",
   "license": "MIT",
-  "engines": {
-    "node": ">=18"
-  },
+  "type": "module",
   "packageManager": "pnpm@10.22.0",
-  "devDependencies": {
-    "@types/node": "^24.10.1",
-    "typescript": "^5.9.3"
-  },
   "files": [
     "dist",
     "README.md"
   ],
+  "bugs": {
+    "url": "https://github.com/yukihito-jokyu/mysql-mcp-server/issues"
+  },
+  "homepage": "https://github.com/yukihito-jokyu/mysql-mcp-server#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.22.0",
     "commander": "^14.0.2",
     "mysql2": "^3.15.3",
     "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3"
   }
 }
