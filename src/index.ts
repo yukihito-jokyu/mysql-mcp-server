@@ -3,6 +3,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { Command } from "commander";
 import { connect } from "./lib/connect.js";
+import { listTables } from "./lib/database.js";
 
 // Parse CLI Args
 const program = new Command()
@@ -56,6 +57,24 @@ server.registerTool(
     return {
       content: [{ type: 'text', text: JSON.stringify(output) }],
       structuredContent: output
+    };
+  }
+);
+
+// List Tables Tool
+server.registerTool(
+  "list_tables",
+  {
+    title: "List Tables",
+    description: "Get list of tables in the database",
+    inputSchema: {},
+    outputSchema: { tables: z.string() }
+  },
+  async () => {
+    const tables = await listTables(connection);
+    return {
+      content: [{ type: "text", text: tables }],
+      structuredContent: { tables }
     };
   }
 );

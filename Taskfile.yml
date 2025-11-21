@@ -19,3 +19,4 @@ tasks:
     cmds:
       - echo "MCP Server 起動"
       - node dist/index.js --host $DB_HOST --port $DB_PORT --name $DB_USER --password $DB_PASSWORD --database $DB_DATABASE
+    silent: true
