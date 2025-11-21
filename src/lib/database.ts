@@ -33,3 +33,16 @@ export async function getTableSchema(
     throw error;
   }
 }
+
+export async function getTableData(
+  connect: mysql.Connection,
+  tableName: string
+): Promise<string> {
+  try {
+    const [rows] = await connect.query("SELECT * FROM ?? LIMIT 5", [tableName]);
+    return JSON.stringify(rows, null, 2);
+  } catch (error) {
+    console.error(`Error getting data for table ${tableName}:`, error);
+    throw error;
+  }
+}
