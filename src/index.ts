@@ -38,26 +38,7 @@ const server = new McpServer(
   },
   {
     instructions:
-      "データベース内のテーブル一覧、テーブルのスキーマ情報取得用の MCP Server"
-  }
-);
-
-// Tool Register Example
-server.registerTool(
-  "add", // Tool Name
-  {
-    title: 'Addition Tool',
-    description: 'Add two numbers',
-    inputSchema: { a: z.number(), b: z.number() },
-    outputSchema: { result: z.number() }
-  },
-  // Impl
-  async ({ a, b }: { a: number; b: number }) => {
-    const output = { result: a + b };
-    return {
-      content: [{ type: 'text', text: JSON.stringify(output) }],
-      structuredContent: output
-    };
+      "MCP Server for retrieving database table lists and schema information."
   }
 );
 
