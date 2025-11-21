@@ -1,0 +1,17 @@
+version: "3"
+
+dotenv: [".env"]
+
+tasks:
+  init:
+    cmds:
+      - echo "拡張機能インストール"
+      - chmod +x .devcontainer/scripts/install_extensions.sh
+      - ./.devcontainer/scripts/install_extensions.sh
+      - echo "インストール完了"
+    silent: true
+  dev:
+    cmds:
+      - echo "MCP Server 検証"
+      - HOST=0.0.0.0 npx @modelcontextprotocol/inspector node dist/index.js --host $DB_HOST --port $DB_PORT --name $DB_USER --password $DB_PASSWORD --database $DB_DATABASE
+    silent: true

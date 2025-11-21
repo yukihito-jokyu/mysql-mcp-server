@@ -38,10 +38,17 @@
   },
   "packageManager": "pnpm@10.22.0",
   "devDependencies": {
+    "@types/node": "^24.10.1",
     "typescript": "^5.9.3"
   },
   "files": [
     "dist",
     "README.md"
-  ]
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.22.0",
+    "commander": "^14.0.2",
+    "mysql2": "^3.15.3",
+    "zod": "^3.25.76"
+  }
 }
