@@ -20,3 +20,16 @@ export async function listTables(connect: mysql.Connection): Promise<string> {
     throw error;
   }
 }
+
+export async function getTableSchema(
+  connect: mysql.Connection,
+  tableName: string
+): Promise<string> {
+  try {
+    const [rows] = await connect.query("DESCRIBE ??", [tableName]);
+    return JSON.stringify(rows, null, 2);
+  } catch (error) {
+    console.error(`Error getting schema for table ${tableName}:`, error);
+    throw error;
+  }
+}
