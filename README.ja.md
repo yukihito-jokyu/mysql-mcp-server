@@ -48,10 +48,11 @@ MCP クライアント(Claude Desktop、Cline など)でこのサーバーを使
 ```json
 {
   "mcpServers": {
-    "mysql": {
+    "mysql-mcp-server": {
       "command": "npx",
       "args": [
-        "@yukihito/mysql-mcp-server",
+        "-y",
+        "@yukihito/mysql-mcp-server@latest",
         "--host", "localhost",
         "--port", "3306",
         "--name", "your_username",
@@ -84,10 +85,11 @@ Claude Desktop の設定ファイルを編集します:
 ```json
 {
   "mcpServers": {
-    "mysql": {
+    "mysql-mcp-server": {
       "command": "npx",
       "args": [
-        "@yukihito/mysql-mcp-server",
+        "-y",
+        "@yukihito/mysql-mcp-server@latest",
         "--host", "localhost",
         "--port", "3306",
         "--name", "myuser",

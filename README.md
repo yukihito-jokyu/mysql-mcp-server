@@ -48,10 +48,11 @@ Configure your MCP client (e.g., Claude Desktop, Cline) to use this server:
 ```json
 {
   "mcpServers": {
-    "mysql": {
+    "mysql-mcp-server": {
       "command": "npx",
       "args": [
-        "@yukihito/mysql-mcp-server",
+        "-y",
+        "@yukihito/mysql-mcp-server@latest",
         "--host", "localhost",
         "--port", "3306",
         "--name", "your_username",
@@ -84,10 +85,11 @@ Edit your Claude Desktop configuration file:
 ```json
 {
   "mcpServers": {
-    "mysql": {
+    "mysql-mcp-server": {
       "command": "npx",
       "args": [
-        "@yukihito/mysql-mcp-server",
+        "-y",
+        "@yukihito/mysql-mcp-server@latest",
         "--host", "localhost",
         "--port", "3306",
         "--name", "myuser",

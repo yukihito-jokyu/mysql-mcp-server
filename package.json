@@ -1,6 +1,6 @@
 {
   "name": "@yukihito/mysql-mcp-server",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "mcpName": "io.github.yukihito-jokyu/mysql-mcp-server",
   "description": "MySQL MCP Server",
   "private": false,
