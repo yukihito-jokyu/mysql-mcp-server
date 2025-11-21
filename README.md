@@ -22,9 +22,15 @@ MySQL データベースと連携するための Model Context Protocol (MCP) �
     - VS Code 拡張機能: [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
 2.  **開始方法**:
+
     - VS Code でこのプロジェクトフォルダを開きます。
     - 左下の緑色のアイコンをクリックするか、コマンドパレット (`Cmd+Shift+P`) を開き、「Dev Containers: Reopen in Container」を選択します。
     - 初回起動時はコンテナのビルドが行われるため、数分かかる場合があります。
+
+3.  **拡張機能インストール方法(Antigravity の場合)**
+    - 以下のコマンドから拡張機能をインストールする
+    - `chmod +x .devcontainer/scripts/install_extensions.sh`
+    - `./.devcontainer/scripts/install_extensions.sh`
 
 ### 利用可能なスクリプト
 
