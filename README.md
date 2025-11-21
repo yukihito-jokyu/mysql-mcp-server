@@ -40,6 +40,14 @@ MySQL データベースと連携するための Model Context Protocol (MCP) �
 - `pnpm dev`: 変更を監視して自動的にコンパイルします。
 - `pnpm start`: コンパイルされたサーバーを起動します。
 
+### タスクランナー (Taskfile)
+
+このプロジェクトでは、タスクランナーとして `task` (go-task) を使用しています。以下のコマンドでタスクを実行できます。
+
+- `task init`: 開発環境の初期化（VS Code 拡張機能のインストールなど）を行います。
+- `task dev`: MCP Inspector を起動し、サーバーの動作検証を行います。
+- `task run`: MCP Server を起動します。
+
 ### VS Code 拡張機能
 
 開発効率を向上させるために、以下の拡張機能が自動的にインストールされます：
